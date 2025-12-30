@@ -1,8 +1,9 @@
 {
-    "workpath": "./out",
+    "workpath": "../SoulClient/",
     "cleanpath": [
         ".cursor/rules",
-        ".claude/skills"
+        ".claude/skills",
+        ".codebuddy/skills"
     ],
     "content_rules": {
         "remoteLLMReviewRules/CODEBUDDY.md": {
@@ -11,8 +12,8 @@
                 {
                     "operation": "replace",
                     "description": "开头明确本文档的用途",
-                    "pattern": "^# Soul 项目代码审查指南\\s+## 项目概览",
-                    "replacement": "# Soul 项目代码审查指南\n\n\n> 本文档为 AI 助手提供项目快速理解所需的关键信息\n\n\n## 项目概览",
+                    "pattern": "^# 项目代码审查指南\\s+## 项目概览",
+                    "replacement": "# 项目代码审查指南\n\n\n> 本文档为 AI 助手提供项目快速理解所需的关键信息\n\n\n## 项目概览",
                     "flags": [],
                     "scope": [
                         "*"
@@ -22,7 +23,7 @@
                     "operation": "replace",
                     "description": "替换项目职责部分，不只是review代码，还有工作计划等",
                     "pattern": "## 项目职责.*?(?=\\n##|\\Z)",
-                    "replacement": "## 项目职责\n\n你是一个专业的基于unity引擎的游戏开发专家，你的主要职责是使用本文档和相关的skill/rule执行工作计划或者代码review。\n",
+                    "replacement": "## 项目职责\n\n你是一个专业的游戏开发专家，你的主要职责是使用本文档和相关的skill/rule执行工作计划或者代码review。\n",
                     "flags": [
                         "DOTALL"
                     ],
@@ -229,7 +230,9 @@
                         "pattern": "**/*.md"
                     },
                     "rename_rule": {
-                        "apply_to": ["parent"],
+                        "apply_to": [
+                            "parent"
+                        ],
                         "lowercase": true,
                         "replacements": [
                             {
@@ -252,6 +255,57 @@
                         "pattern": "**/*.md"
                     },
                     "copy": ".claude/skills",
+                    "use_parent_dir": true
+                }
+            ]
+        },
+        {
+            "name": "codebuddy",
+            "generate_settings": {
+                "target": ".codebuddy/settings.local.json",
+                "default_permission": "allow"
+            },
+            "distribute": [
+                {
+                    "source": {
+                        "type": "file",
+                        "path": "remoteLLMReviewRules/CODEBUDDY.md"
+                    },
+                    "rename": "CLAUDE.md",
+                    "copy": ""
+                },
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "remoteLLMReviewRules/.codebuddy/skills",
+                        "pattern": "**/*.md"
+                    },
+                    "rename_rule": {
+                        "apply_to": [
+                            "parent"
+                        ],
+                        "lowercase": true,
+                        "replacements": [
+                            {
+                                "from": "soul-",
+                                "to": ""
+                            },
+                            {
+                                "from": "_",
+                                "to": "-"
+                            }
+                        ]
+                    },
+                    "copy": ".codebuddy/skills",
+                    "use_parent_dir": true
+                },
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "skills",
+                        "pattern": "**/*.md"
+                    },
+                    "copy": ".codebuddy/skills",
                     "use_parent_dir": true
                 }
             ]
