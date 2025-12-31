@@ -9,11 +9,23 @@ import re
 FRONTMATTER_RE = re.compile(r"^---\s*\n([\s\S]*?)\n---\s*\n", re.MULTILINE)
 
 
-def _frontmatter_has(content, fields):
+def _frontmatter_has(content, fields, value=None):
     m = FRONTMATTER_RE.match(content)
     if not m:
         return False
     fm_body = m.group(1)
+
+    # 如果指定了 value，检查字段值是否匹配
+    if value is not None and len(fields) == 1:
+        field = fields[0]
+        pattern = rf"^{re.escape(field)}\s*:\s*(.+?)$"
+        match = re.search(pattern, fm_body, flags=re.MULTILINE)
+        if not match:
+            return False
+        actual_value = match.group(1).strip()
+        return actual_value == value
+
+    # 否则只检查字段是否存在
     missing = [f for f in fields if re.search(rf"^{re.escape(f)}\s*:", fm_body, flags=re.MULTILINE) is None]
     return len(missing) == 0
 
@@ -33,9 +45,13 @@ def passes_filters(filters, content, verbose=True):
 
         if operation == "frontmatter_has":
             fields = rule.get("fields", ["name", "description"])
-            passed = _frontmatter_has(content, fields)
+            value = rule.get("value")
+            passed = _frontmatter_has(content, fields, value=value)
             if not passed:
-                reason = "无frontmatter或缺字段"
+                if value is not None:
+                    reason = f"字段值不匹配 (期望: {value})"
+                else:
+                    reason = "无frontmatter或缺字段"
         else:
             if verbose:
                 print(f"      - {description} (未知过滤类型: {operation})")
@@ -68,7 +84,8 @@ def passes_filters_silent(filters, content):
 
         if operation == "frontmatter_has":
             fields = rule.get("fields", ["name", "description"])
-            passed = _frontmatter_has(content, fields)
+            value = rule.get("value")
+            passed = _frontmatter_has(content, fields, value=value)
         else:
             return False
 

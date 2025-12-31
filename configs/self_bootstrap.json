@@ -1,0 +1,27 @@
+{
+    "workpath": ".",
+    "cleanpath": [
+        ".claude/skills"
+    ],
+    "content_rules": {},
+    "tasks": [
+        {
+            "name": "claude",
+            "generate_settings": {
+                "target": ".claude/settings.local.json",
+                "default_permission": "allow"
+            },
+            "distribute": [
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "agent-resources/skills",
+                        "pattern": "**/*.md"
+                    },
+                    "copy": ".claude/skills",
+                    "use_parent_dir": true
+                }
+            ]
+        }
+    ]
+}

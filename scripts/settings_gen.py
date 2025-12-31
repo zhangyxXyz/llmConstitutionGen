@@ -114,6 +114,19 @@ def process_claude(task_name: str, ctx: dict):
     )
 
 
+def process_codebuddy(task_name: str, ctx: dict):
+    """codebuddy 特化：生成 permissions"""
+    return generate_settings_permissions(
+        task=ctx.get("task"),
+        workpath=ctx.get("workpath"),
+        default_permission=ctx.get("default_permission"),
+        target_file=ctx.get("target_file"),
+        collect_source=ctx.get("collect_source"),
+        get_target_path=ctx.get("get_target_path"),
+        frontmatter_re=ctx.get("frontmatter_re"),
+    )
+
+
 def process(task_name: str, ctx: dict):
     """
     统一入口：根据 task_name 选择特化处理函数

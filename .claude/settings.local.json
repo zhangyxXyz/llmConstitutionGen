@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(openspec-init)",
+      "Skill(token-savings)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

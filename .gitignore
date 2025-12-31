@@ -1,6 +1,10 @@
 out
-*/**/__pycache__
+
+# Python cache files
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.sqlite3
+
+# Temporary files
+*.sqlite3nul

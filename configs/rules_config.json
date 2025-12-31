@@ -1,0 +1,127 @@
+{
+    "workpath": "./out",
+    "cleanpath": [
+        ".cursor/rules",
+        ".claude/skills",
+        ".codebuddy/skills"
+    ],
+    "content_rules": {
+        "agent-resources/skills/**/*.md": {
+            "filter": [
+                {
+                    "operation": "frontmatter_has",
+                    "description": "需包含name/description frontmatter",
+                    "fields": [
+                        "name",
+                        "description"
+                    ],
+                    "scope": [
+                        "cursor"
+                    ]
+                }
+            ],
+            "process": [
+                {
+                    "operation": "replace",
+                    "description": "删除文件开头的 frontmatter",
+                    "pattern": "^---\\s*\\n[\\s\\S]*?\\n---\\s*\\n",
+                    "replacement": "",
+                    "flags": [],
+                    "scope": [
+                        "cursor"
+                    ]
+                },
+                {
+                    "operation": "append_start",
+                    "description": "cursor 目标添加 alwaysApply frontmatter",
+                    "content": "---\nalwaysApply: true\n---\n\n",
+                    "scope": [
+                        "cursor"
+                    ]
+                },
+                {
+                    "operation": "rewrite_links_to_claude",
+                    "description": "将同目录相对链接指向 claude 任务的目标路径",
+                    "target_task": "claude",
+                    "link_prefix": "../..",
+                    "scope": [
+                        "cursor"
+                    ]
+                }
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "name": "cursor",
+            "distribute": [
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "agent-resources/skills",
+                        "pattern": "**/*.md"
+                    },
+                    "filter": [
+                        {
+                            "operation": "frontmatter_has",
+                            "description": "需包含name/description frontmatter",
+                            "fields": [
+                                "name",
+                                "description"
+                            ],
+                            "negate": false
+                        }
+                    ],
+                    "rename_rule": {
+                        "foldername": true,
+                        "lowercase": true,
+                        "replacements": [
+                            {
+                                "from": "_",
+                                "to": "-"
+                            }
+                        ]
+                    },
+                    "copy": ".cursor/rules",
+                    "suffix": "mdc"
+                }
+            ]
+        },
+        {
+            "name": "claude",
+            "generate_settings": {
+                "target": ".claude/settings.local.json",
+                "default_permission": "allow"
+            },
+            "distribute": [
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "agent-resources/skills",
+                        "pattern": "**/*.md"
+                    },
+                    "copy": ".claude/skills",
+                    "use_parent_dir": true
+                }
+            ]
+        },
+        {
+            "name": "codebuddy",
+            "generate_settings": {
+                "target": ".codebuddy/settings.local.json",
+                "default_permission": "allow"
+            },
+            "distribute": [
+                {
+                    "source": {
+                        "type": "directory",
+                        "path": "agent-resources/skills",
+                        "pattern": "**/*.md"
+                    },
+                    "copy": ".codebuddy/skills",
+                    "use_parent_dir": true
+                }
+            ]
+        }
+    ]
+}
