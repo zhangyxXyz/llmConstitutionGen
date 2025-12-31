@@ -1,4 +1,19 @@
-# rules_config.json 配置说明
+# AI 助手规则分发系统
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+本项目是一个 **AI 助手规则分发系统**,用于将统一维护的规则(rules/skills)自动分发到不同的 AI 编程助手工具。
+
+**以 Claude Code 技能为基准样式**,通过配置驱动的方式自动转换并分发到:
+- **Cursor** - 转换为 `.cursor/rules/*.mdc` 格式
+- **Claude Code** - 保持 `.claude/skills/*/skill.md` 原始格式
+- **CodeBuddy** - 类似 Claude 结构,分发到 `.codebuddy/skills/`
+
+📚 **完整项目文档**: 查看 [openspec/project.md](openspec/project.md) 了解项目架构、开发约定和领域知识。
+
+---
+
+## rules_config.json 配置说明
 
 > 供本项目的分发脚本 `distribute_rules.py` 使用，放置于 `configs/` 目录。
 
@@ -238,4 +253,10 @@ python run_distribute.py configs/self_bootstrap.json
 ```
 使用父目录名作为文件名基础，生成 `<dirname>.mdc` 文件。
 
+---
 
+## License
+
+本项目采用 [MIT License](LICENSE) 开源协议。
+
+Copyright (c) 2025 llmConstitutionGen Contributors
