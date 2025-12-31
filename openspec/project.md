@@ -176,7 +176,6 @@ scripts/
 ```
 llmConstitutionGen/
 ├── distribute_rules.py          # 分发入口脚本
-├── run_distribute.py            # UTF-8 编码包装器
 ├── update_all.bat                # Windows 一键执行脚本
 ├── self_bootstrap.bat            # 自举分发脚本
 ├── configs/                      # 配置文件目录
@@ -283,14 +282,14 @@ llmConstitutionGen/
 
    Skill content here...
    ```
-3. 运行分发: `python run_distribute.py` 或 `update_all.bat`
+3. 运行分发: `python distribute_rules.py` 或 `update_all.bat`
 4. 检查输出并测试
 
 ### 自举分发 (Self-Bootstrap)
 
 将通用 skills 分发到本项目,供开发本项目时使用:
 
-1. 运行自举分发: `.\self_bootstrap.bat` 或 `python run_distribute.py configs/self_bootstrap.json`
+1. 运行自举分发: `.\self_bootstrap.bat` 或 `python distribute_rules.py configs/self_bootstrap.json`
 2. Skills 将分发到 `.claude/skills/`
 3. `.claude/settings.local.json` 自动更新权限配置
 

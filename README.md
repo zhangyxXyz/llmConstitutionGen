@@ -126,16 +126,12 @@
 
 **使用默认配置**:
 ```bash
-python run_distribute.py
-# 或
 python distribute_rules.py
 ```
 默认使用 `configs/rules_config.json` 配置文件。
 
 **使用指定配置**:
 ```bash
-python run_distribute.py configs/self_bootstrap.json
-# 或
 python distribute_rules.py configs/self_bootstrap.json
 ```
 
@@ -143,7 +139,7 @@ python distribute_rules.py configs/self_bootstrap.json
 ```bash
 .\self_bootstrap.bat
 # 或
-python run_distribute.py configs/self_bootstrap.json
+python distribute_rules.py configs/self_bootstrap.json
 ```
 
 脚本会先清理 `cleanpath`，再按 tasks 依次分发并生成目标文件。

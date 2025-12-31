@@ -12,7 +12,7 @@ echo.
 echo ────────────────────────────────────────────
 echo 📤 [步骤 1/1] 分发规则...
 echo ────────────────────────────────────────────
-python run_distribute.py
+python distribute_rules.py
 if %errorlevel% neq 0 (
     echo.
     echo ❌ 规则分发失败
